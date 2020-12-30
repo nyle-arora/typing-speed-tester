@@ -144,8 +144,10 @@ function reset() {
     testArea.value = "";
     theTimer.innerHTML = "00:00:00";
     testWrapper.style.borderColor = "grey";
-    var e = document.querySelector('.metrics');
-    e.parentNode.removeChild(e);
+    var tables = document.querySelectorAll('.metrics');
+    tables.forEach(function(t){
+        t.parentNode.removeChild(t);
+    });
     document.querySelector(".intro").scrollIntoView();
 }
 
