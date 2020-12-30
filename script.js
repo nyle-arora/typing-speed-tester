@@ -13,6 +13,7 @@ var interval;
 var timerRunning = false;
 var rightChar = 0; 
 var wrongChar = 0;
+var tableBuilt = false;
 
 // Add leading zero to numbers 9 or below (purely for aesthetics):
 function leadingZero(time) {
@@ -44,7 +45,10 @@ function spellCheck() {
         var wpm = wordsPerMinute();
         var cpm = charsPerMinute();
         var a = accuracy();
-        buildTable(wpm, cpm, a);
+        if(!tableBuilt){ //this if statement makes sure the table is not built multiple times
+            buildTable(wpm, cpm, a);
+            tableBuilt = true;
+        }
     } else {
         if (textEntered == originTextMatch) {
             testWrapper.style.borderColor = "#65CCf3";
@@ -148,6 +152,7 @@ function reset() {
     tables.forEach(function(t){
         t.parentNode.removeChild(t);
     });
+    tableBuilt = false;
     document.querySelector(".intro").scrollIntoView();
 }
 
