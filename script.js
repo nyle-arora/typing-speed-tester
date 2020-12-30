@@ -95,36 +95,51 @@ function buildTable(wpm, cpm, a){
     var headRow = document.createElement("tr");
     headRow.className = "heading";
     metricsTable.appendChild(headRow);
-    //adding the wpm info
-    var wpmHeadingElement = document.createElement("th");
-    var wpmHeadingText = document.createTextNode("Words per min");
-    wpmHeadingElement.appendChild(wpmHeadingText);
-    headRow.appendChild(wpmHeadingElement);
     var newRow = document.createElement("tr");
     newRow.className = "metrics-row";
     metricsTable.appendChild(newRow);
+
+    //settng up the elements
+    var headingElements = [];
+    var headingTexts = [];
+    var cells = [];
+    var texts = [];
+    
+    var wpmHeadingElement = document.createElement("th");
+    headingElements.push(wpmHeadingElement);
+    var wpmHeadingText = document.createTextNode("Words per min");
+    headingTexts.push(wpmHeadingText);
     var wpmCell = document.createElement("td");
+    cells.push(wpmCell);
     var wpmText = document.createTextNode(wpm.toFixed(2));
-    wpmCell.appendChild(wpmText);
-    newRow.appendChild(wpmCell);
-    //adding the cpm info 
+    texts.push(wpmText);
+
     var cpmHeadingElement = document.createElement("th");
+    headingElements.push(cpmHeadingElement);
     var cpmHeadingText = document.createTextNode("Chars per min");
-    cpmHeadingElement.appendChild(cpmHeadingText);
-    headRow.appendChild(cpmHeadingElement);
+    headingTexts.push(cpmHeadingText);
     var cpmCell = document.createElement("td");
+    cells.push(cpmCell);
     var cpmText = document.createTextNode(cpm.toFixed(2));
-    cpmCell.appendChild(cpmText);
-    newRow.appendChild(cpmCell);
-    //adding the accuracy info 
+    texts.push(cpmText);
+
     var aHeadingElement = document.createElement("th");
+    headingElements.push(aHeadingElement);
     var aHeadingText = document.createTextNode("Accuracy while typing");
-    aHeadingElement.appendChild(aHeadingText);
-    headRow.appendChild(aHeadingElement);
+    headingTexts.push(aHeadingText);
     var aCell = document.createElement("td");
+    cells.push(aCell);
     var aText = document.createTextNode(a.toFixed(2));
-    aCell.appendChild(aText);
-    newRow.appendChild(aCell);
+    texts.push(aText);
+    //adding the wpm info
+
+    for(var i = 0; i < headingElements.length; i++){
+        headingElements[i].appendChild(headingTexts[i]);
+        headRow.appendChild(headingElements[i]);
+        cells[i].appendChild(texts[i]);
+        newRow.appendChild(cells[i]);
+    }
+    
     //scrolling into view
     metricsTable.scrollIntoView();
 }
