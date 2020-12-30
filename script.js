@@ -11,6 +11,8 @@ const theTimer = document.querySelector(".timer");
 var timer = [0,0,0,0];
 var interval;
 var timerRunning = false;
+var rightChar = 0; 
+var wrongChar = 0;
 
 // Add leading zero to numbers 9 or below (purely for aesthetics):
 function leadingZero(time) {
@@ -23,7 +25,7 @@ function leadingZero(time) {
 // Run a standard minute/second/hundredths timer:
 function runTimer() {
     let currentTime = leadingZero(timer[0]) + ":" + leadingZero(timer[1]) + ":" + leadingZero(timer[2]);
-    theTimer.innerHTML = "Time: " + currentTime;
+    theTimer.innerHTML = currentTime;
     timer[3]++;
 
     timer[0] = Math.floor((timer[3]/100)/60);
@@ -41,12 +43,15 @@ function spellCheck() {
         testWrapper.style.borderColor = "#429890";
         wordsPerMinute();
         charsPerMinute();
+        accuracy();
         console.log(timer);
     } else {
         if (textEntered == originTextMatch) {
             testWrapper.style.borderColor = "#65CCf3";
+            rightChar++;
         } else {
             testWrapper.style.borderColor = "#E95D0F";
+            wrongChar++;
         }
     }
 
@@ -54,16 +59,31 @@ function spellCheck() {
 
 //display the words per minute metric
 function wordsPerMinute(){
+    //calculating the words per minute metric
     var totalMins = timer[0] + timer[1]/60 + (timer[2]/100)/60; //calculate the total number of minutes
     var copy = originText.slice(); //don't want to affect the original originText object
     var numWords = copy.split(" ").length;
     var wpm = numWords/totalMins;
-    var wpmElement = document.createElement("div");
-    wpmElement.className = "words-per-min";
-    var wpmText = document.createTextNode("Words/min: " + wpm.toFixed(2));
-    wpmElement.appendChild(wpmText);
-    document.querySelector(".meta").appendChild(wpmElement);
-    wpmElement.scrollIntoView();
+    //setting up the table and the heading row
+    var metricsTable = document.createElement("table");
+    metricsTable.className = "metrics";
+    document.querySelector('.main').appendChild(metricsTable);
+    var headRow = document.createElement("tr");
+    headRow.className = "heading";
+    metricsTable.appendChild(headRow);
+    //populating the table
+    var wpmHeadingElement = document.createElement("th");
+    var wpmHeadingText = document.createTextNode("Words per min");
+    wpmHeadingElement.appendChild(wpmHeadingText);
+    headRow.appendChild(wpmHeadingElement);
+    var newRow = document.createElement("tr");
+    newRow.className = "metrics-row";
+    metricsTable.appendChild(newRow);
+    var wpmCell = document.createElement("td");
+    var wpmText = document.createTextNode(wpm.toFixed(2));
+    wpmCell.appendChild(wpmText);
+    newRow.appendChild(wpmCell);
+    metricsTable.scrollIntoView();
 }
 
 //display the chars per min metric
@@ -72,11 +92,27 @@ function charsPerMinute(){
     var copy = originText.slice(); //don't want to affect the original originText object
     var numChars = copy.split('').length;
     var cpm = numChars/totalMins;
-    var cpmElement = document.createElement("div");
-    cpmElement.className = "chars-per-min";
-    var cpmText = document.createTextNode("Chars/min: " + cpm.toFixed(2));
-    cpmElement.appendChild(cpmText);
-    document.querySelector(".meta").appendChild(cpmElement);
+    var cpmHeadingElement = document.createElement("th");
+    var cpmHeadingText = document.createTextNode("Chars per min");
+    cpmHeadingElement.appendChild(cpmHeadingText);
+    document.querySelector(".heading").appendChild(cpmHeadingElement);
+    var cpmCell = document.createElement("td");
+    var cpmText = document.createTextNode(cpm.toFixed(2));
+    cpmCell.appendChild(cpmText);
+    document.querySelector('.metrics-row').appendChild(cpmCell);
+}
+
+//display the accuracy of typing
+function accuracy(){
+   var a = rightChar/(rightChar+wrongChar)*100;
+   var aHeadingElement = document.createElement("th");
+   var aHeadingText = document.createTextNode("Accuracy while typing");
+   aHeadingElement.appendChild(aHeadingText);
+   document.querySelector(".heading").appendChild(aHeadingElement);
+   var aCell = document.createElement("td");
+   var aText = document.createTextNode(a.toFixed(2));
+   aCell.appendChild(aText);
+   document.querySelector('.metrics-row').appendChild(aCell);
 }
 
 // Start the timer:
@@ -96,12 +132,10 @@ function reset() {
     timerRunning = false;
 
     testArea.value = "";
-    theTimer.innerHTML = "Time: 00:00:00";
+    theTimer.innerHTML = "00:00:00";
     testWrapper.style.borderColor = "grey";
-    var e = document.querySelector('.words-per-min');
+    var e = document.querySelector('.metrics');
     e.parentNode.removeChild(e);
-    var e1 = document.querySelector('.chars-per-min');
-    e1.parentNode.removeChild(e1);
     document.querySelector(".intro").scrollIntoView();
 }
 
