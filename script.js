@@ -41,10 +41,10 @@ function spellCheck() {
     if (textEntered == originText) {
         clearInterval(interval);
         testWrapper.style.borderColor = "#429890";
-        wordsPerMinute();
-        charsPerMinute();
-        accuracy();
-        console.log(timer);
+        var wpm = wordsPerMinute();
+        var cpm = charsPerMinute();
+        var a = accuracy();
+        buildTable(wpm, cpm, a);
     } else {
         if (textEntered == originTextMatch) {
             testWrapper.style.borderColor = "#65CCf3";
@@ -64,14 +64,34 @@ function wordsPerMinute(){
     var copy = originText.slice(); //don't want to affect the original originText object
     var numWords = copy.split(" ").length;
     var wpm = numWords/totalMins;
-    //setting up the table and the heading row
+    return wpm; 
+    //populating the table
+}
+
+//display the chars per min metric
+function charsPerMinute(){
+    var totalMins = timer[0] + timer[1]/60 + (timer[2]/100)/60; //calculate the total number of minutes
+    var copy = originText.slice(); //don't want to affect the original originText object
+    var numChars = copy.split('').length;
+    var cpm = numChars/totalMins;
+    return cpm; 
+}
+
+//display the accuracy of typing
+function accuracy(){
+   var a = rightChar/(rightChar+wrongChar)*100;
+   return a;
+}
+
+function buildTable(wpm, cpm, a){
+    //setting up the table and its rows
     var metricsTable = document.createElement("table");
     metricsTable.className = "metrics";
     document.querySelector('.main').appendChild(metricsTable);
     var headRow = document.createElement("tr");
     headRow.className = "heading";
     metricsTable.appendChild(headRow);
-    //populating the table
+    //adding the wpm info
     var wpmHeadingElement = document.createElement("th");
     var wpmHeadingText = document.createTextNode("Words per min");
     wpmHeadingElement.appendChild(wpmHeadingText);
@@ -83,36 +103,26 @@ function wordsPerMinute(){
     var wpmText = document.createTextNode(wpm.toFixed(2));
     wpmCell.appendChild(wpmText);
     newRow.appendChild(wpmCell);
-    metricsTable.scrollIntoView();
-}
-
-//display the chars per min metric
-function charsPerMinute(){
-    var totalMins = timer[0] + timer[1]/60 + (timer[2]/100)/60; //calculate the total number of minutes
-    var copy = originText.slice(); //don't want to affect the original originText object
-    var numChars = copy.split('').length;
-    var cpm = numChars/totalMins;
+    //adding the cpm info 
     var cpmHeadingElement = document.createElement("th");
     var cpmHeadingText = document.createTextNode("Chars per min");
     cpmHeadingElement.appendChild(cpmHeadingText);
-    document.querySelector(".heading").appendChild(cpmHeadingElement);
+    headRow.appendChild(cpmHeadingElement);
     var cpmCell = document.createElement("td");
     var cpmText = document.createTextNode(cpm.toFixed(2));
     cpmCell.appendChild(cpmText);
-    document.querySelector('.metrics-row').appendChild(cpmCell);
-}
-
-//display the accuracy of typing
-function accuracy(){
-   var a = rightChar/(rightChar+wrongChar)*100;
-   var aHeadingElement = document.createElement("th");
-   var aHeadingText = document.createTextNode("Accuracy while typing");
-   aHeadingElement.appendChild(aHeadingText);
-   document.querySelector(".heading").appendChild(aHeadingElement);
-   var aCell = document.createElement("td");
-   var aText = document.createTextNode(a.toFixed(2));
-   aCell.appendChild(aText);
-   document.querySelector('.metrics-row').appendChild(aCell);
+    newRow.appendChild(cpmCell);
+    //adding the accuracy info 
+    var aHeadingElement = document.createElement("th");
+    var aHeadingText = document.createTextNode("Accuracy while typing");
+    aHeadingElement.appendChild(aHeadingText);
+    headRow.appendChild(aHeadingElement);
+    var aCell = document.createElement("td");
+    var aText = document.createTextNode(a.toFixed(2));
+    aCell.appendChild(aText);
+    newRow.appendChild(aCell);
+    //scrolling into view
+    metricsTable.scrollIntoView();
 }
 
 // Start the timer:
