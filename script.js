@@ -68,7 +68,7 @@ function wordsPerMinute(){
     var copy = originText.slice(); //don't want to affect the original originText object
     var numWords = copy.split(" ").length;
     var wpm = numWords/totalMins;
-    return wpm; 
+    return wpm.toFixed(2); 
     //populating the table
 }
 
@@ -78,15 +78,16 @@ function charsPerMinute(){
     var copy = originText.slice(); //don't want to affect the original originText object
     var numChars = copy.split('').length;
     var cpm = numChars/totalMins;
-    return cpm; 
+    return cpm.toFixed(2); 
 }
 
 //display the accuracy of typing
 function accuracy(){
    var a = rightChar/(rightChar+wrongChar)*100;
-   return a;
+   return a.toFixed(2) + "%";
 }
 
+//build the table of metrics after typing is done
 function buildTable(wpm, cpm, a){
     //setting up the table and its rows
     var metricsTable = document.createElement("table");
@@ -100,38 +101,26 @@ function buildTable(wpm, cpm, a){
     metricsTable.appendChild(newRow);
 
     //settng up the elements
-    var headingElements = [];
-    var headingTexts = [];
-    var cells = [];
-    var texts = [];
-    
     var wpmHeadingElement = document.createElement("th");
-    headingElements.push(wpmHeadingElement);
     var wpmHeadingText = document.createTextNode("Words per min");
-    headingTexts.push(wpmHeadingText);
     var wpmCell = document.createElement("td");
-    cells.push(wpmCell);
-    var wpmText = document.createTextNode(wpm.toFixed(2));
-    texts.push(wpmText);
+    var wpmText = document.createTextNode(wpm);
 
     var cpmHeadingElement = document.createElement("th");
-    headingElements.push(cpmHeadingElement);
     var cpmHeadingText = document.createTextNode("Chars per min");
-    headingTexts.push(cpmHeadingText);
     var cpmCell = document.createElement("td");
-    cells.push(cpmCell);
-    var cpmText = document.createTextNode(cpm.toFixed(2));
-    texts.push(cpmText);
+    var cpmText = document.createTextNode(cpm);
 
     var aHeadingElement = document.createElement("th");
-    headingElements.push(aHeadingElement);
     var aHeadingText = document.createTextNode("Accuracy while typing");
-    headingTexts.push(aHeadingText);
     var aCell = document.createElement("td");
-    cells.push(aCell);
-    var aText = document.createTextNode(a.toFixed(2));
-    texts.push(aText);
-    //adding the wpm info
+    var aText = document.createTextNode(a);
+
+    //adding nodes to the DOM tree
+    headingElements = [wpmHeadingElement, cpmHeadingElement, aHeadingElement];
+    headingTexts = [wpmHeadingText, cpmHeadingText, aHeadingText];
+    cells = [wpmCell, cpmCell, aCell];
+    texts = [wpmText, cpmText, aText];
 
     for(var i = 0; i < headingElements.length; i++){
         headingElements[i].appendChild(headingTexts[i]);
