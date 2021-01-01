@@ -1,12 +1,13 @@
-//to do: 1. place metrics in a separate div and style as a report box
-//       2. calculate accuracy
-//       3. generate array of different potential texts user can choose
+
 
 const testWrapper = document.querySelector(".test-wrapper");
 const testArea = document.querySelector("#test-area");
-const originText = document.querySelector("#origin-text p").innerHTML;
+var originText = document.querySelector("#origin-text p").innerHTML;
 const resetButton = document.querySelector("#reset");
 const theTimer = document.querySelector(".timer");
+const circleOne = document.querySelector("#easy");
+const circleTwo = document.querySelector("#medium");
+const circleThree = document.querySelector("#hard");
 
 var timer = [0,0,0,0];
 var interval;
@@ -14,6 +15,10 @@ var timerRunning = false;
 var rightChar = 0; 
 var wrongChar = 0;
 var tableBuilt = false;
+
+var easyText = "Here is some easy text to type.";
+var mediumText = "This text is more complicated. Be mindful of Proper Nouns and all types of punctuation!"
+var hardText = "You have to type this text EXACTLY in the field below. The timer will only stop if and ONLY IF you match this text exactly. At the end you will see your words per minute, your chars per minute, and you accuracy. Good Luck!"
 
 // Add leading zero to numbers 9 or below (purely for aesthetics):
 function leadingZero(time) {
@@ -160,7 +165,32 @@ function reset() {
     document.querySelector(".intro").scrollIntoView();
 }
 
+function changeText(node){
+    if(node == circleOne){
+        document.querySelector("#origin-text p").innerHTML = easyText;
+        originText = document.querySelector("#origin-text p").innerHTML
+        circleOne.classList.toggle("chosen");
+        circleTwo.classList.toggle("chosen", false);
+        circleThree.classList.toggle("chosen", false);
+    } else if (node == circleTwo){
+        document.querySelector("#origin-text p").innerHTML = mediumText;
+        originText = document.querySelector("#origin-text p").innerHTML;
+        circleTwo.classList.toggle("chosen");
+        circleOne.classList.toggle("chosen", false);
+        circleThree.classList.toggle("chosen", false)
+    } else {
+        document.querySelector("#origin-text p").innerHTML = hardText;
+        originText = document.querySelector("#origin-text p").innerHTML;
+        circleThree.classList.toggle("chosen");
+        circleOne.classList.toggle("chosen", false);
+        circleTwo.classList.toggle("chosen", false);
+    }
+}
+
 // Event listeners for keyboard input and the reset
 testArea.addEventListener("keypress", start, false);
 testArea.addEventListener("keyup", spellCheck, false);
 resetButton.addEventListener("click", reset, false);
+circleOne.addEventListener("click", function(){changeText(circleOne)}, false);
+circleTwo.addEventListener("click", function(){changeText(circleTwo)}, false);
+circleThree.addEventListener("click", function(){changeText(circleThree)}, false);

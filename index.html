@@ -19,14 +19,19 @@
             <p>This is a typing test. Your goal is to duplicate the provided text, EXACTLY, in the field below. The timer starts when you start typing, and only stops when you match this text exactly. Good Luck!</p>
         </article><!-- .intro -->
         <section class="test-area">
+            <!-- <a id="prev">&#10094;</a> -->
             <div id="origin-text">
-                <p>Here is some text to type.</p>
+                <p>Here is some easy text to type.</p>
             </div><!-- #origin-text -->
-
+            <div id="dots">
+                <span class="dot chosen" id="easy"></span>
+                <span class="dot" id="medium"></span>
+                <span class="dot" id="hard"></span>
+            </div>
+            <!-- <a id="next">&#10095;</a> -->
             <div class="test-wrapper">
                 <textarea id="test-area" name="textarea" rows="6" placeholder="The clock starts when you start typing."></textarea>
             </div><!-- .test-wrapper -->
-
             <div class="meta">
                 <section id="clock">
                     <div class="timer">00:00:00</div>

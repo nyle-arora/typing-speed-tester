@@ -153,6 +153,25 @@ body {
     padding-bottom: 1em;
 }
 
+#dots{
+    position: relative; 
+    left: 40%;
+}
+
+.dot{
+    height: 25px; 
+    width: 25px; 
+    border-radius: 50%;
+    background-color: #bbb;
+    display: inline-block;
+    margin-bottom: 5px; 
+    cursor: pointer;
+}
+
+.chosen{
+    background-color: rgb(65, 65, 65);
+}
+
 .test-wrapper {
     height: 200%;
     display: flex;
