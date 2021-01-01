@@ -18,7 +18,7 @@ var tableBuilt = false;
 
 var easyText = "Here is some easy text to type.";
 var mediumText = "This text is more complicated. Be mindful of Proper Nouns and all types of punctuation!"
-var hardText = "You have to type this text EXACTLY in the field below. The timer will only stop if and ONLY IF you match this text exactly. At the end you will see your words per minute, your chars per minute, and you accuracy. Good Luck!"
+var hardText = "You have to type this text EXACTLY in the field below. The timer will only stop if and ONLY IF you match this text exactly. Once you are done typing, you will see your words per minute, your chars per minute, and your accuracy. Good Luck!"
 
 // Add leading zero to numbers 9 or below (purely for aesthetics):
 function leadingZero(time) {
