@@ -89,6 +89,8 @@ function charsPerMinute(){
 //display the accuracy of typing
 function accuracy(){
    var a = rightChar/(rightChar+wrongChar)*100;
+   console.log(rightChar);
+   console.log(wrongChar);
    return a.toFixed(2) + "%";
 }
 
@@ -157,6 +159,8 @@ function reset() {
     testArea.value = "";
     theTimer.innerHTML = "00:00:00";
     testWrapper.style.borderColor = "grey";
+    rightChar = 0; 
+    wrongChar = 0;
     var tables = document.querySelectorAll('.metrics');
     tables.forEach(function(t){
         t.parentNode.removeChild(t);
